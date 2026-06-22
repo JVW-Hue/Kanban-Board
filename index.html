@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Kanban Board</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Kanban Board</h1>
+        </header>
+        <main class="board">
+            <div class="column" data-status="todo">
+                <div class="column-header">
+                    <h2>To Do</h2>
+                    <span class="task-count">0</span>
+                </div>
+                <div class="task-list" id="todo"></div>
+                <button class="add-task-btn" onclick="openModal('todo')">+ Add Task</button>
+            </div>
+            <div class="column" data-status="inprogress">
+                <div class="column-header">
+                    <h2>In Progress</h2>
+                    <span class="task-count">0</span>
+                </div>
+                <div class="task-list" id="inprogress"></div>
+                <button class="add-task-btn" onclick="openModal('inprogress')">+ Add Task</button>
+            </div>
+            <div class="column" data-status="done">
+                <div class="column-header">
+                    <h2>Done</h2>
+                    <span class="task-count">0</span>
+                </div>
+                <div class="task-list" id="done"></div>
+                <button class="add-task-btn" onclick="openModal('done')">+ Add Task</button>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3>Add New Task</h3>
+            <input type="text" id="taskInput" placeholder="Task title..." autofocus>
+            <textarea id="taskDescription" placeholder="Description (optional)"></textarea>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button class="save-btn" onclick="addTask()">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
