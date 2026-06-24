@@ -14,6 +14,28 @@
             <img src="icon-512.png" alt="Kanban" class="nav-logo">
             <span class="nav-title">Kanban Board</span>
         </div>
+
+        <div class="board-switcher">
+            <button class="board-current" id="boardCurrent" onclick="toggleBoardMenu()">
+                <span class="board-current-name" id="boardCurrentName">My Board</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </button>
+            <div class="board-menu" id="boardMenu">
+                <div class="board-menu-header">Your Boards</div>
+                <div class="board-menu-list" id="boardMenuList"></div>
+                <div class="board-menu-divider"></div>
+                <button class="board-menu-item board-menu-new" onclick="createBoard()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    New Board
+                </button>
+            </div>
+        </div>
+
         <div class="nav-stats">
             <span class="stat" id="statTodo">0 tasks</span>
             <span class="stat-divider"></span>
@@ -32,18 +54,7 @@
                 </div>
                 <span class="task-count count-todo">0</span>
             </div>
-            <div class="task-list" id="todo">
-                <div class="empty-state">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="9" y1="9" x2="15" y2="9"/>
-                        <line x1="9" y1="13" x2="15" y2="13"/>
-                        <line x1="9" y1="17" x2="12" y2="17"/>
-                    </svg>
-                    <p>No tasks yet</p>
-                    <span>Click "Add Task" to get started</span>
-                </div>
-            </div>
+            <div class="task-list" id="todo"></div>
             <button class="add-task-btn" onclick="openModal('todo')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="12" y1="5" x2="12" y2="19"/>
@@ -61,16 +72,7 @@
                 </div>
                 <span class="task-count count-progress">0</span>
             </div>
-            <div class="task-list" id="inprogress">
-                <div class="empty-state">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <p>Nothing in progress</p>
-                    <span>Drag tasks here to start working</span>
-                </div>
-            </div>
+            <div class="task-list" id="inprogress"></div>
             <button class="add-task-btn" onclick="openModal('inprogress')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="12" y1="5" x2="12" y2="19"/>
@@ -88,16 +90,7 @@
                 </div>
                 <span class="task-count count-done">0</span>
             </div>
-            <div class="task-list" id="done">
-                <div class="empty-state">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                        <polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>
-                    <p>No completed tasks</p>
-                    <span>Finish tasks to see them here</span>
-                </div>
-            </div>
+            <div class="task-list" id="done"></div>
             <button class="add-task-btn" onclick="openModal('done')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="12" y1="5" x2="12" y2="19"/>
@@ -108,6 +101,7 @@
         </div>
     </main>
 
+    <!-- Task Modal -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <div class="modal-header">
@@ -132,6 +126,31 @@
                         <polyline points="20 6 9 17 4 12"/>
                     </svg>
                     <span id="saveBtnText">Add Task</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Board Name Modal -->
+    <div class="modal-overlay" id="boardModalOverlay">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h3 id="boardModalTitle">New Board</h3>
+                <button class="modal-close" onclick="closeBoardModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="input-label" for="boardNameInput">Board Name</label>
+                <input type="text" id="boardNameInput" placeholder="e.g. Work, Personal, Side Project">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeBoardModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveBoardName()">
+                    <span id="boardSaveBtnText">Create Board</span>
                 </button>
             </div>
         </div>
